@@ -50,15 +50,15 @@ function initPipes(){pipes=[];}
 function initAll(){initBird();initPipes();particles=[];taunts=[];frame=0;score=0;pipeTimer=0;document.getElementById('scoreTxt').textContent='🎯 0';}
 
 function addPipe(){
-  const gap=150*SC,minY=80*SC,maxY=H-120*SC-gap;
+  const gap=240*SC,minY=80*SC,maxY=H-120*SC-gap;
   const topH=minY+Math.random()*(maxY-minY);
-  pipes.push({x:W+20,topH,gap,passed:false,speed:(2.8+score*0.07)*SC});
+  pipes.push({x:W+20,topH,gap,passed:false,speed:(1.8+score*0.03)*SC});
 }
 
 function flap(){
   if(state==='idle'){state='playing';initAll();addPipe();}
   else if(state==='dead'){state='playing';initAll();addPipe();return;}
-  bird.vy=-9*SC; bird.squish=1.4;
+  bird.vy=-8*SC; bird.squish=1.4;
   spawnParticle(bird.x-bird.r,bird.y,'#fff');
 }
 
@@ -173,10 +173,10 @@ function collides(){
 function update(){
   frame++;
   if(state!=='playing') return;
-  bird.vy+=0.5*SC; bird.y+=bird.vy;
+  bird.vy+=0.3*SC; bird.y+=bird.vy;
   bird.angle=bird.vy*0.06; bird.squish+=(1-bird.squish)*0.15;
   pipeTimer++;
-  const interval=Math.max(55,100-score*2);
+  const interval=Math.max(70,120-score*2);
   if(pipeTimer>interval){addPipe();pipeTimer=0;}
   pipes.forEach(p=>{p.x-=p.speed;});
   pipes=pipes.filter(p=>p.x>-80);
